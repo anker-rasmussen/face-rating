@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="color-scheme" content="light dark" />
+  <title>Mirrorscore</title>
+  <meta name="description" content="A face rater that runs entirely in your browser. No uploads, no tracking." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%AA%9E%3C/text%3E%3C/svg%3E" />
+  <script type="module" crossorigin src="./assets/index-CWh0WFwU.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-BSFwJW8c.css">
+</head>
+<body>
+  <header class="top">
+    <span class="logo"><span aria-hidden="true">🪞</span> Mirrorscore</span>
+    <span class="pill">100% on-device</span>
+  </header>
+
+  <div class="ad-slot ad-slot--top" data-ad-slot="top" hidden></div>
+
+  <main>
+    <!-- Landing + age gate -->
+    <section id="gate" class="card hero" hidden>
+      <h1>How would a few thousand raters score your face?</h1>
+      <p class="lead">Point your camera (or upload a photo) and get a quick, slightly cheeky score from a small neural net trained on rated face photos.</p>
+      <div class="privacy">
+        <strong>Privacy, plainly:</strong> this runs entirely on your device. No images are uploaded or stored. Close the tab and it's gone.
+      </div>
+      <label class="check">
+        <input type="checkbox" id="age-check" />
+        <span>I'm 18 or older, and I get that this is a toy, not a verdict.</span>
+      </label>
+      <button id="age-go" class="btn" disabled>Let's go</button>
+    </section>
+
+    <!-- App -->
+    <section id="app" hidden>
+      <nav class="tabs" role="tablist" aria-label="Mode">
+        <button role="tab" id="tab-live" aria-selected="true" aria-controls="panel-live">Live</button>
+        <button role="tab" id="tab-photo" aria-selected="false" aria-controls="panel-photo">Photo</button>
+        <button role="tab" id="tab-pairs" aria-selected="false" aria-controls="panel-pairs">Rate pairs</button>
+      </nav>
+
+      <div id="status" class="status" role="status">Loading models…</div>
+
+      <section id="panel-live" role="tabpanel" aria-labelledby="tab-live">
+        <div class="stage" id="live-stage">
+          <video id="video" playsinline muted></video>
+          <canvas id="overlay"></canvas>
+          <div class="stage-empty" id="live-empty">Camera is off</div>
+        </div>
+        <div class="controls">
+          <button id="cam-toggle" class="btn">Start camera</button>
+        </div>
+      </section>
+
+      <section id="panel-photo" role="tabpanel" aria-labelledby="tab-photo" hidden>
+        <div class="stage" id="photo-stage">
+          <canvas id="photo-canvas"></canvas>
+          <div class="stage-empty" id="photo-empty">Pick a photo (it stays on this device)</div>
+        </div>
+        <div class="controls">
+          <label class="btn file-btn">Choose photo
+            <input type="file" id="photo-input" accept="image/*" hidden />
+          </label>
+        </div>
+      </section>
+
+      <section id="panel-pairs" role="tabpanel" aria-labelledby="tab-pairs" hidden>
+        <div class="card soon">
+          <div class="soon-emoji" aria-hidden="true">⚖️</div>
+          <h2>Rate pairs: coming soon</h2>
+          <p>Soon you'll be able to pick which of two faces you find more attractive, helping us build a fairer, more diverse dataset. Nothing to do here yet.</p>
+        </div>
+      </section>
+
+      <!-- Result card (live + photo) -->
+      <section id="result" class="card result" aria-live="polite" hidden>
+        <div id="result-ok">
+          <div class="score" id="score-wrap">
+            <span id="score-val" class="score-val">–</span><span class="score-max">/ 10</span>
+          </div>
+          <div class="meter" aria-hidden="true"><div id="meter-fill" class="meter-fill"></div></div>
+          <p id="score-pct" class="pct"></p>
+          <p id="score-conf" class="muted small"></p>
+        </div>
+        <div id="result-warn" class="warn" hidden>
+          <div id="warn-icon" class="warn-icon" aria-hidden="true"></div>
+          <div><strong id="warn-title"></strong><p id="warn-hint" class="muted"></p></div>
+        </div>
+        <p id="note" class="note" hidden></p>
+      </section>
+    </section>
+
+    <div class="ad-slot ad-slot--bottom" data-ad-slot="bottom" hidden></div>
+
+    <section id="how" class="card how">
+      <h2>How this works</h2>
+      <p>A small face detector finds your face, straightens and crops it, and a neural network trained to predict human beauty ratings gives it a number from 1 to 10. Everything happens in your browser tab; the camera feed never leaves your device.</p>
+      <h3>What the score means</h3>
+      <p>It estimates the <em>average taste of the people who rated the training photos</em> (the SCUT-FBP5500 and MEBeauty datasets), nothing more. "Higher than X% of reference faces" compares you against a held-out set of those photos.</p>
+      <h3>Known biases</h3>
+      <ul>
+        <li>The datasets cover a limited range of ethnicities, ages and styles. Scores for faces outside that range are less trustworthy.</li>
+        <li>SCUT-FBP5500's raters were mostly from China, so the model mirrors their preferences, not a universal standard.</li>
+        <li>Lighting, camera quality, angle and expression all move the score. That's why we warn you when the input looks off.</li>
+      </ul>
+      <p class="muted">It's a fun statistical party trick, not an objective measure of worth, attractiveness or anything about who you are.</p>
+    </section>
+  </main>
+
+  <footer>No cookies, no trackers, no uploads. <span id="backend" class="muted"></span></footer>
+</body>
+</html>
